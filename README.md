@@ -1,3 +1,3 @@
 # RANSAC
 
-This is a repository includes realization of RANSAC algorithm.
+This is a repository includes realization of RANSAC algorithm written in python.
