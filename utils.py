@@ -59,7 +59,7 @@ def run_ransac(data: ndarray, sample_size: int, possibility: float, goal_inliers
     """
     This is the main framework for RANSAC algorithm
     @parameters:
-        data:2d points in $n \ttimes 2$ matrix form
+        data:2d points in $n \times 2$ matrix form
         sample_size: the size of sample that each time sampled from origin data
         goal_inliers: the number of points that supposed to be inliers in the fincal model
         max_iteration: the number of iteration before stop 
@@ -98,7 +98,7 @@ def run_ransac(data: ndarray, sample_size: int, possibility: float, goal_inliers
             i_index.reverse()
             for j in i_index:
                 data.pop(j)
-        if ic > best_inliers:
+        if len(inlier_set) > best_inliers:
             best_inliers = len(inlier_set)
             best_model = m
             if best_inliers > goal_inliers:
@@ -108,7 +108,7 @@ def run_ransac(data: ndarray, sample_size: int, possibility: float, goal_inliers
     return best_model, best_inliers
 
 
-def plot_fig(xys, a, b, c,threshold, save_path) -> None:
+def plot_fig(xys, a, b, c, threshold, save_path) -> None:
     """
     This function is used to draw the result of RANSAC algorithm.
     @parameters:
@@ -120,9 +120,11 @@ def plot_fig(xys, a, b, c,threshold, save_path) -> None:
     """
     scatter(xys.T[0], xys.T[1])
     plot([0, 10], [-c/b, -(c+10*a)/b], color=(0, 1, 0))
-    plot([0, 10], [-(c+threshold/sqrt(a**2+b**2))/b, -(c+10*a+threshold/sqrt(a**2+b**2))/b], color=(0, 1, 0))
-    plot([0, 10], [-(c-threshold/sqrt(a**2+b**2))/b, -(c+10*a-threshold/sqrt(a**2+b**2))/b], color=(0, 1, 0))
-    
+    plot([0, 10], [-(c+threshold/sqrt(a**2+b**2))/b, -
+         (c+10*a+threshold/sqrt(a**2+b**2))/b], color=(0, 1, 0))
+    plot([0, 10], [-(c-threshold/sqrt(a**2+b**2))/b, -
+         (c+10*a-threshold/sqrt(a**2+b**2))/b], color=(0, 1, 0))
+
     savefig(save_path)
     show()
     return None

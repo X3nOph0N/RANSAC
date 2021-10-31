@@ -3,6 +3,7 @@ from numpy.random.mtrand import normal
 from utils import run_ransac, plot_fig
 from argparse import ArgumentParser
 from numpy.random import random
+from time import time
 
 
 def main(possibility: float, point_count: int, noise_ratio: float, noise_type: str, sample_size: int, goal_inliers_ratio: int, threshold: float, seed: int, save_path: str):
@@ -20,8 +21,11 @@ def main(possibility: float, point_count: int, noise_ratio: float, noise_type: s
             xys[_, ] += normal(mu, sigma)
     else:
         raise NotImplementedError
+    start = time()
     m, b = run_ransac(xys, sample_size, possibility, int(
         goal_inliers_ratio*point_count), max_iteration, threshold, seed)
+    end = time()
+    print('time:', end-start)
     a, b, c = m
     plot_fig(xys, a, b, c, threshold, save_path)
     return
